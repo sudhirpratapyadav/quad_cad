@@ -96,8 +96,8 @@ sketch_semicirlce = (
 ).assemble()
 csc = cq.Workplane().placeSketch(sketch_semicirlce).extrude(rotor_disc_radius*2+bottom_offset).rotate((0,0,0),(1,0,0),90).translate((L1-rotor_disc_radius-csc_l2,rotor_disc_radius,motor_coupler_gap_half+rotor_coupler_thickness))
 
-side_cut_L = 140
-side_cut_l1 = 35
+side_cut_L = 180
+side_cut_l1 = 90
 side_cut_w = (WIDTH-30)/2
 sketch_side_cut = (
     cq.Sketch()
@@ -109,9 +109,11 @@ sketch_side_cut = (
 side_cut_1 = cq.Workplane().placeSketch(sketch_side_cut).extrude(rotor_disc_radius*8).rotate((0,0,0),(1,0,0),-90).rotate((0,0,0),(0,1,0),180).translate((p3[0]+20,-rotor_disc_radius*5,0))
 side_cut_2 = cq.Workplane().placeSketch(sketch_side_cut).extrude(rotor_disc_radius*8).rotate((0,0,0),(1,0,0),90).rotate((0,0,0),(0,1,0),180).translate((p3[0]+20,rotor_disc_radius*3,WIDTH))
 
+end_hole_radius = 10
+end_hole = cq.Workplane("XY").cylinder(WIDTH, end_hole_radius, centered=True).translate((p3[0]-5, p3[1]+3, WIDTH/2))
 
+leg = leg_solid.cut(csc).cut(side_cut_1).cut(side_cut_2).cut(end_hole)
 
-leg = leg_solid.cut(csc).cut(side_cut_1).cut(side_cut_2)
 
 # Extra rotor rotor disc extrusion for tight fit
 rotor_disc_sketch = cq.Sketch().arc((0, 0), rotor_disc_radius, 0.0, 360.0).arc((0.0, 0.0), rotor_disc_axle_hole_radius, 0.0, 360.0)
