@@ -127,7 +127,7 @@ rotor_disc1 = cq.Workplane("XY").placeSketch(rotor_disc_sketch).extrude(1).trans
 rotor_disc2 = cq.Workplane("XY").placeSketch(rotor_disc_sketch).extrude(1).translate((0, 0, WIDTH-rotor_coupler_thickness-1))
 
 lower_leg = leg.union(rotor_disc1).union(rotor_disc2)
-lower_leg.export("../assets/quad_parts/lower_leg_v3.svg")
-lower_leg.export("../assets/quad_parts/lower_leg_v3.step")
-lower_leg.export("../assets/quad_parts/lower_leg_v3.stl")
+lower_leg.export("../assets/quad_parts/leg_lower_v3.svg")
+lower_leg.export("../assets/quad_parts/leg_lower_v3.step")
+lower_leg.export("../assets/quad_parts/leg_lower_v3.stl")
 print("Lower leg v3 saved successfully!")
