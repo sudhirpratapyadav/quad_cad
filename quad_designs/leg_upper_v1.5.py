@@ -195,6 +195,15 @@ triangle_cut_4 = (
     .fillet(3)
     .translate((0,0,-10))
 )
+size=13
+triangle_cut_4_5 = (
+    cq.Workplane()
+    .polyline([(5,size), (-size,-size), (size*1.6,size*0.6), (5,size)]).close()
+    .extrude(20)
+    .edges("|Z")
+    .fillet(3)
+    .translate((0,0,-10))
+)
 size=motor_inner_thickness
 triangle_cut_5 = (
     cq.Workplane()
@@ -204,7 +213,6 @@ triangle_cut_5 = (
     .fillet(3)
     .translate((0,0,-10))
 ).rotate((0,0,0),(1,0,0),90).translate((0,w1_h, leg_B/2-2))
-
 upper_leg = (
     leg_solid
     .cut(cut_box_motor)
@@ -214,11 +222,11 @@ upper_leg = (
     .cut(triangle_cut_1.rotateAboutCenter((0,0,1),3).translate((70, -3, 0)))
     .cut(triangle_cut_2.rotateAboutCenter((0,0,1),180).translate((100, 5, 0)))
     .cut(triangle_cut_3.rotateAboutCenter((0,0,1),0).translate((130, -2, 0)))
-    # .cut(triangle_cut_4.translate((154, 0, 0)))
+    .cut(triangle_cut_4.translate((154, 0, 0)))
     .cut(triangle_cut_1.rotateAboutCenter((0,0,1),180).translate((70, 4, leg_B)))
     .cut(triangle_cut_2.rotateAboutCenter((0,0,1),3).translate((100, -3, leg_B)))
     .cut(triangle_cut_3.rotateAboutCenter((0,0,1),177).translate((130, 4, leg_B)))
-    # .cut(triangle_cut_4.rotateAboutCenter((0,0,1),75).translate((154, -3, leg_B)))
+    .cut(triangle_cut_4_5.rotateAboutCenter((0,0,1),0).translate((150, -5, leg_B)))
     .cut(triangle_cut_5.translate((70, 0, 0)))
     .cut(triangle_cut_5.rotateAboutCenter((0,1,0),180).translate((100, 0, -8)))
     .cut(triangle_cut_5.translate((130, 0, 0)))
@@ -236,8 +244,8 @@ upper_leg = (
 # show_object(cut_box_motor)
 # show_object(cut_inner_leg)
 # show_object(cut_box)
-show_object(upper_leg, name="upper_leg_trans", options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
-show_object(upper_leg, name="upper_leg")
+# show_object(upper_leg, name="upper_leg_trans", options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
+# show_object(upper_leg, name="upper_leg", options={"color": (0.5, 0.5, 0.5)})
 
 # upper_leg = leg1.union(leg2)
 
