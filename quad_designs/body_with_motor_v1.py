@@ -95,10 +95,8 @@ mfr = mfl.mirror(mirrorPlane="YZ", basePointVector=(l_offset+LENGTH+xl/2, 0, 0))
 
 front_body = box_x.union(mfl).union(mfr).cut(cut_box_z)
 
-
-
 size=(xl+LENGTH-wz)*2/sqrt(3)
-zl = 3.5*size
+zl = 3.5*size+10
 box_z = (
     cq.Workplane("XY")
     .box(xl+LENGTH,HEIGHT,zl)
@@ -109,17 +107,6 @@ box_z = (
     .translate(((xl+LENGTH)/2+l_offset+LENGTH/2,0,zl/2+HEIGHT/2))
 )
 cb_zl = 20
-beam_thickness = 30
-# cb1 = cq.Workplane("XY").box(xl+LENGTH, HEIGHT-beam_thickness, cb_zl).translate(((xl+LENGTH)/2+l_offset+LENGTH/2,0,(HEIGHT+cb_zl)/2))
-# cb2 = cq.Workplane("XY").box(xl+LENGTH-beam_thickness, HEIGHT, cb_zl).translate(((xl+LENGTH)/2+l_offset+LENGTH/2,0,(HEIGHT+cb_zl)/2))
-# cb3 = cq.Workplane("XY").cylinder(cb_zl, (HEIGHT)/2).translate(((xl+LENGTH)/2+l_offset+LENGTH/2,0,(HEIGHT+cb_zl)/2))
-# show_object(cb1, options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
-# show_object(cb2, options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
-# show_object(cb3, options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
-# box_z = box_z.cut(cb1).cut(cb2)
-
-
-
 fs=4
 tc1 = (
     cq.Workplane("XZ")
@@ -127,7 +114,7 @@ tc1 = (
     .extrude(wz/2)
     .edges("|Y")
     .fillet(fs)
-    .translate((l_offset+LENGTH/2+wz/2,BREADTH/2,HEIGHT/2))
+    .translate((l_offset+LENGTH/2+wz/2,BREADTH/2,HEIGHT/2+10))
 )
 gap = 2*size/2
 stuss_cuts_top = (

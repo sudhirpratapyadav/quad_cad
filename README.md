@@ -2,6 +2,8 @@
 
 This repository contains Quadruped Designs using CadQuery.
 
+![Quadruped Design](docs/quad.png)
+
 ## Installing CadQuery
 
 1. **Create a conda environment:**
