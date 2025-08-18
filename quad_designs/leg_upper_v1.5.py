@@ -9,16 +9,15 @@ import numpy as np
 HOLE_TOLERANCE = 0.25  # Tolerance for hole dimensions (in radius) due to 3D printing
 
 ## Motor coupler params (Based on Actual Motor)
-rotor_disc_radius = 15.0
+rotor_disc_radius = 14.0 + 2 # 2 mm extra
 inner_rect_w = 29
 inner_rect_l = 42.5 # This is from rotor center (not total l)
-motor_inner_thickness = 34.5 # 1 mm extra
-motor_outer_thickness = 41 # exact
-coupler_plate_thickness = 2+(motor_outer_thickness-motor_inner_thickness)/2 # 2 mm extra
+motor_inner_thickness = 34.5 # 0.5 mm extra
+motor_outer_thickness = 41.5 # 0.5 mm extra
+coupler_plate_thickness = 3+(motor_outer_thickness-motor_inner_thickness)/2 # 3 mm extra
 outer_rect_w = 40.2
 hole_plate_w = (outer_rect_w-inner_rect_w)/2
 outer_rect_l = inner_rect_l + hole_plate_w
-motor_l = 61.1-13 # from rotor center to motor end
 
 leg_B = 2*coupler_plate_thickness+motor_inner_thickness
 
@@ -30,6 +29,8 @@ h3_w = h2_w
 h1_l = 45.3
 h2_l = 40.0
 h3_l = 18.0
+h4_l = -4.0
+h4_w = h2_w
 
 ## Leg Params
 L1= 150 # From rotor center to first bent
@@ -86,6 +87,8 @@ motor_coupler_holes = (cq.Sketch()
     .arc((h2_l, -h2_w), hole_radius, 0, 360)
     .arc((h3_l, h3_w), hole_radius, 0, 360)
     .arc((h3_l, -h3_w), hole_radius, 0, 360)
+    # .arc((h4_l, h4_w), hole_radius, 0, 360)
+    # .arc((h4_l, -h4_w), hole_radius, 0, 360)
 ).assemble()
 leg_sketch = leg_profile.face(motor_coupler_holes, mode='s').face(motor_coupler_holes.moved(c5[0],c5[1],0,0,0,180+degrees(bend_angle)+3), mode='s')
 
@@ -94,16 +97,13 @@ print("Link end point, length (rotor to rotor)", c5, np.linalg.norm(c5))
 
 leg_solid = cq.Workplane("XY").placeSketch(leg_sketch).extrude(leg_B)
 
-box_l = motor_l
-cut_box_motor = (
-    cq.Workplane()
-    .box(box_l, outer_rect_w, motor_inner_thickness)
-    .box(box_l, inner_rect_w, motor_outer_thickness)
-    .translate((box_l/2, 0, leg_B/2))
-)
+cb1 =cq.Workplane().box(outer_rect_l, outer_rect_w, motor_inner_thickness).translate((outer_rect_l/2, 0, leg_B/2))
+cb2 = cq.Workplane().box(inner_rect_l, inner_rect_w, motor_outer_thickness).translate((inner_rect_l/2, 0, leg_B/2))
+
+# show_object(cut_box_motor)
 cb3_l = h1_l-h3_l
 cb3 = cq.Workplane().box(cb3_l, w1_h*2+5, motor_inner_thickness).translate((h3_l+cb3_l/2, 0, leg_B/2))
-cut_box_motor = cut_box_motor.union(cb3)
+cut_box_motor = cb1.union(cb2).union(cb3)
 box_l2 = 50
 cut_box = (
     cq.Workplane()
@@ -236,6 +236,13 @@ upper_leg = (
     .cut(triangle_cut_5.rotateAboutCenter((0,1,0),180).translate((130, -2*w1_h, -8)))
 )
 
+
+
+upper_leg.export("../assets/quad_parts/leg_upper_v1.5.svg")
+upper_leg.export("../assets/quad_parts/leg_upper_v1.5.step")
+upper_leg.export("../assets/quad_parts/leg_upper_v1.5.stl")
+print("Upper leg v1.5 saved successfully!")
+
 # show_object(triangle_cut, name="triangle_cut", options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
 
 # show_object(leg_solid, options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
@@ -245,11 +252,4 @@ upper_leg = (
 # show_object(cut_inner_leg)
 # show_object(cut_box)
 # show_object(upper_leg, name="upper_leg_trans", options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
-# show_object(upper_leg, name="upper_leg", options={"color": (0.5, 0.5, 0.5)})
-
-# upper_leg = leg1.union(leg2)
-
-upper_leg.export("../assets/quad_parts/leg_upper_v1.5.svg")
-upper_leg.export("../assets/quad_parts/leg_upper_v1.5.step")
-upper_leg.export("../assets/quad_parts/leg_upper_v1.5.stl")
-print("Upper leg v1.5 saved successfully!")
+# show_object(upper_leg, name="upper_leg", options={"color": (2/255, 50/255, 50/255)})
