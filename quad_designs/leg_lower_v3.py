@@ -15,7 +15,7 @@ rotor_disc_holes_num = 8  # Number of mounting holes
 rotor_disc_axle_hole_radius = 5 + HOLE_TOLERANCE  # Radius of center hole for motor axle (10 mm diameter)
 
 ## Parameters of leg_part_1
-rotor_coupler_thickness = 5.0  # Thickness of the coupler disc and extension attached to rotor disc
+rotor_coupler_thickness = 6.0  # Thickness of the coupler disc and extension attached to rotor disc
 L1 = 90.0 # Length of leg_part_1: first part of leg (attached to motor rotor)
 motor_coupler_gap_half = 52/2
 WIDTH = 2*(motor_coupler_gap_half+rotor_coupler_thickness)
@@ -24,9 +24,6 @@ WIDTH = 2*(motor_coupler_gap_half+rotor_coupler_thickness)
 offset = 0
 angle_deg = 6
 bottom_offset = 7
-
-
-
 
 
 L1= 80
@@ -83,18 +80,10 @@ for i in range(rotor_disc_holes_num):
 sketch = sketch.assemble()
 
 leg_solid = cq.Workplane("XY").add(sketch).extrude(WIDTH)
-csc_l2 = 40
-csc_l = L1-csc_l2
-
-sketch_semicirlce = (
-    cq.Sketch()
-    # .arc((0,motor_coupler_gap_half), (motor_coupler_gap_half*1.5,0), (0,-motor_coupler_gap_half))
-    .spline([(0,motor_coupler_gap_half), (40,0), (0,-motor_coupler_gap_half)],[(1,0),(0,-1),(-1,0)],False)
-    .segment((-csc_l,motor_coupler_gap_half), (0,motor_coupler_gap_half))
-    .segment((-csc_l,-motor_coupler_gap_half), (0,-motor_coupler_gap_half))
-    .segment((-csc_l,-motor_coupler_gap_half), (-csc_l,motor_coupler_gap_half))
-).assemble()
-csc = cq.Workplane().placeSketch(sketch_semicirlce).extrude(rotor_disc_radius*2+bottom_offset).rotate((0,0,0),(1,0,0),90).translate((L1-rotor_disc_radius-csc_l2,rotor_disc_radius,motor_coupler_gap_half+rotor_coupler_thickness))
+csc_l = 53
+csc = cq.Workplane().box(rotor_disc_radius+csc_l, rotor_disc_radius*2+bottom_offset, motor_coupler_gap_half*2)
+csc = csc.edges("|Y and >X").fillet(3)
+csc = csc.translate(((rotor_disc_radius+csc_l)/2-rotor_disc_radius,-bottom_offset/2,motor_coupler_gap_half+rotor_coupler_thickness))
 
 side_cut_L = 180
 side_cut_l1 = 90
@@ -112,21 +101,9 @@ side_cut_2 = cq.Workplane().placeSketch(sketch_side_cut).extrude(rotor_disc_radi
 end_hole_radius = 10
 end_hole = cq.Workplane("XY").cylinder(WIDTH, end_hole_radius, centered=True).translate((p3[0]-5, p3[1]+3, WIDTH/2))
 
-leg = leg_solid.cut(csc).cut(side_cut_1).cut(side_cut_2).cut(end_hole)
+lower_leg = leg_solid.cut(csc).cut(side_cut_1).cut(side_cut_2).cut(end_hole)
+lower_leg = lower_leg.translate((0, 0, -WIDTH/2))
 
-
-# Extra rotor rotor disc extrusion for tight fit
-rotor_disc_sketch = cq.Sketch().arc((0, 0), rotor_disc_radius, 0.0, 360.0).arc((0.0, 0.0), rotor_disc_axle_hole_radius, 0.0, 360.0)
-for i in range(rotor_disc_holes_num):
-    angle = i * (360.0 / rotor_disc_holes_num)  # Degrees
-    x_pos = rotor_disc_holes_pcd * cos(radians(angle))
-    y_pos = rotor_disc_holes_pcd * sin(radians(angle))
-    rotor_disc_sketch = rotor_disc_sketch.arc((-x_pos, -y_pos), rotor_disc_holes_radius, 0.0, 360.0)
-rotor_disc_sketch = rotor_disc_sketch.assemble()
-rotor_disc1 = cq.Workplane("XY").placeSketch(rotor_disc_sketch).extrude(1).translate((0, 0, rotor_coupler_thickness))
-rotor_disc2 = cq.Workplane("XY").placeSketch(rotor_disc_sketch).extrude(1).translate((0, 0, WIDTH-rotor_coupler_thickness-1))
-
-lower_leg = leg.union(rotor_disc1).union(rotor_disc2)
 lower_leg.export("../assets/quad_parts/leg_lower_v3.svg")
 lower_leg.export("../assets/quad_parts/leg_lower_v3.step")
 lower_leg.export("../assets/quad_parts/leg_lower_v3.stl")

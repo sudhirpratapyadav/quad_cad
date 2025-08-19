@@ -140,6 +140,10 @@ motor = motor.translate((0, 0, 0)).rotate((0,0,0),(0,0,1),90)
 
 body = front_body.union(back_body)
 
+print("l,b", HEIGHT+zl*2, 2*l_offset+2*LENGTH+xl)
+
+show_object(body)
+show_object(front_body)
 # show_object(mfl)
 # show_object(mfl, options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
 # show_object(mfr, options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
@@ -148,7 +152,7 @@ body = front_body.union(back_body)
 # show_object(motor)
 # show_object(body, options={"color": (2/255, 50/255, 50/255), "alpha": 1.0})
 
-body.export("../assets/quad_parts/body_v1.svg")
-body.export("../assets/quad_parts/body_v1.step")
-body.export("../assets/quad_parts/body_v1.stl")
-print("body v1 saved successfully!")
+# body.export("../assets/quad_parts/body_v1.svg")
+# body.export("../assets/quad_parts/body_v1.step")
+# body.export("../assets/quad_parts/body_v1.stl")
+# print("body v1 saved successfully!")

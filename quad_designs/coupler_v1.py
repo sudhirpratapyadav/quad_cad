@@ -79,6 +79,8 @@ boxs = (
 
 
 coupler = coupler_1.union(coupler_2).union(box).union(boxs)
+coupler = coupler.translate((0, 0, -WIDTH/2))
+
 
 # # rot_up = 5
 # motor = cq.importers.importStep("/home/robot/sudhir/quad_cad/assets/mx64/MX-64AT_AR.stp")
@@ -91,6 +93,8 @@ coupler = coupler_1.union(coupler_2).union(box).union(boxs)
 # show_object(motor1)
 # show_object(motor2)
 # show_object(body)
+
+print("rotor_end_x_z", L+WIDTH/2-rotor_coupler_thickness)
 
 coupler.export("../assets/quad_parts/coupler_v1.svg")
 coupler.export("../assets/quad_parts/coupler_v1.step")

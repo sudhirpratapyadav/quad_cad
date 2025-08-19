@@ -10,12 +10,12 @@ HOLE_TOLERANCE = 0.25  # Tolerance for hole dimensions (in radius) due to 3D pri
 
 ## Motor coupler params (Based on Actual Motor)
 rotor_disc_radius = 14.0 + 2 # 2 mm extra
-inner_rect_w = 29
+inner_rect_w = 29+0.5 # 0.5 mm extra
 inner_rect_l = 42.5 # This is from rotor center (not total l)
-motor_inner_thickness = 34.5 # 0.5 mm extra
-motor_outer_thickness = 41.5 # 0.5 mm extra
+motor_inner_thickness = 34+0.5 # 0.5 mm extra
+motor_outer_thickness = 41+0.5 # 0.5 mm extra
 coupler_plate_thickness = 3+(motor_outer_thickness-motor_inner_thickness)/2 # 3 mm extra
-outer_rect_w = 40.2
+outer_rect_w = 40.2+0.5 # 0.5 mm extra
 hole_plate_w = (outer_rect_w-inner_rect_w)/2
 outer_rect_l = inner_rect_l + hole_plate_w
 
@@ -236,12 +236,24 @@ upper_leg = (
     .cut(triangle_cut_5.rotateAboutCenter((0,1,0),180).translate((130, -2*w1_h, -8)))
 )
 
-
+upper_leg = upper_leg.translate((0, 0, -leg_B/2))
 
 upper_leg.export("../assets/quad_parts/leg_upper_v1.5.svg")
 upper_leg.export("../assets/quad_parts/leg_upper_v1.5.step")
 upper_leg.export("../assets/quad_parts/leg_upper_v1.5.stl")
 print("Upper leg v1.5 saved successfully!")
+
+
+
+# motor = cq.importers.importStep("/home/robot/sudhir/quad_cad/assets/mx64/MX-64AT_AR.stp")
+# motor_up = motor.translate((0, 0, 0)).rotate((0,0,0),(0,0,1),90)
+# motor_knee = motor.rotate((0,0,0),(0,0,1),90).rotate((0,0,0),(0,0,1),(180 + degrees(bend_angle) + 3)).translate((c5[0],c5[1], 0))
+
+# upper_leg_with_motor = upper_leg.union(motor_up).union(motor_knee)
+# upper_leg_with_motor.export("../assets/quad_parts/leg_upper_with_motor_v1.5.svg")
+# upper_leg_with_motor.export("../assets/quad_parts/leg_upper_with_motor_v1.5.step")
+# upper_leg_with_motor.export("../assets/quad_parts/leg_upper_with_motor_v1.5.stl")
+# print("Upper leg with motor v1.5 saved successfully!")
 
 # show_object(triangle_cut, name="triangle_cut", options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
 
@@ -252,4 +264,4 @@ print("Upper leg v1.5 saved successfully!")
 # show_object(cut_inner_leg)
 # show_object(cut_box)
 # show_object(upper_leg, name="upper_leg_trans", options={"color": (0.5, 0.5, 0.5), "alpha": 0.5})
-# show_object(upper_leg, name="upper_leg", options={"color": (2/255, 50/255, 50/255)})
+show_object(upper_leg, name="upper_leg", options={"color": (2/255, 50/255, 50/255)})

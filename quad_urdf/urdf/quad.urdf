@@ -157,11 +157,29 @@
     </visual>
   </link>
 
+<!-- Joint connecting body to back right coupler -->
+  <joint name="back_right_hipX" type="revolute">
+    <parent link="body"/>
+    <child link="back_right_coupler"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 3.14"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
+  </joint>
+
+  <!-- Joint connecting body to back left coupler -->
+  <joint name="back_left_hipX" type="revolute">
+    <parent link="body"/>
+    <child link="back_left_coupler"/>
+    <origin xyz="0.1083 0.0 0.0" rpy="0 0 0.0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
+  </joint>
+
   <!-- Joint connecting body to front left coupler -->
   <joint name="front_left_hipX" type="revolute">
     <parent link="body"/>
     <child link="front_left_coupler"/>
-    <origin xyz="0.11 -0.0 -0.035" rpy="0 0 0"/>
+    <origin xyz="0.1083 -0.0 0.3491" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
@@ -170,52 +188,7 @@
   <joint name="front_right_hipX" type="revolute">
     <parent link="body"/>
     <child link="front_right_coupler"/>
-    <origin xyz="0.0 -0.0 -0.035" rpy="0 0 3.14"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
-  </joint>
-
-<!-- Joint connecting body to back left coupler -->
-  <joint name="back_left_hipX" type="revolute">
-    <parent link="body"/>
-    <child link="back_left_coupler"/>
-    <origin xyz="0.11 -0.0 0.31" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
-  </joint>
-
-  <!-- Joint connecting body to back right coupler -->
-  <joint name="back_right_hipX" type="revolute">
-    <parent link="body"/>
-    <child link="back_right_coupler"/>
-    <origin xyz="0.0 -0.0 0.31" rpy="0 0 3.14"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
-  </joint>
-
-  <!-- Joint connecting front left coupler to upper leg -->
-  <joint name="front_left_hipY" type="revolute">
-    <parent link="front_left_coupler"/>
-    <child link="front_left_upper_leg"/>
-    <origin xyz="0.06 0.0 -0.042" rpy="0 1.57 0"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
-  </joint>
-
-  <!-- Joint connecting front right coupler to upper leg -->
-  <joint name="front_right_hipY" type="revolute">
-    <parent link="front_right_coupler"/>
-    <child link="front_right_upper_leg"/>
-    <origin xyz="0.1 0.0 -0.042" rpy="0 1.57 3.14"/>
-    <axis xyz="0 0 1"/>
-    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
-  </joint>
-
-  <!-- Joint connecting back left coupler to upper leg -->
-  <joint name="back_left_hipY" type="revolute">
-    <parent link="back_left_coupler"/>
-    <child link="back_left_upper_leg"/>
-    <origin xyz="0.06 0.0 -0.042" rpy="0 1.57 0"/>
+    <origin xyz="0.0 -0.0 0.3491" rpy="0 0 3.14"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
@@ -224,34 +197,34 @@
   <joint name="back_right_hipY" type="revolute">
     <parent link="back_right_coupler"/>
     <child link="back_right_upper_leg"/>
-    <origin xyz="0.1 0.0 -0.042" rpy="0 1.57 3.14"/>
+    <origin xyz="0.077 0.0 -0.077" rpy="0 1.57 3.14"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
 
-  <!-- Joint connecting front left upper leg to lower leg -->
-  <joint name="front_left_knee" type="revolute">
-    <parent link="front_left_upper_leg"/>
-    <child link="front_left_lower_leg"/>
-    <origin xyz="0.203 -0.038 0.05" rpy="0 3.14 0"/>
+  <!-- Joint connecting back left coupler to upper leg -->
+  <joint name="back_left_hipY" type="revolute">
+    <parent link="back_left_coupler"/>
+    <child link="back_left_upper_leg"/>
+    <origin xyz="0.077 0.0 -0.077" rpy="0 1.57 0.0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
 
-  <!-- Joint connecting front right upper leg to lower leg -->
-  <joint name="front_right_knee" type="revolute">
-    <parent link="front_right_upper_leg"/>
-    <child link="front_right_lower_leg"/>
-    <origin xyz="0.203 -0.038 0.05" rpy="0 3.14 0"/>
+  <!-- Joint connecting front left coupler to upper leg -->
+  <joint name="front_left_hipY" type="revolute">
+    <parent link="front_left_coupler"/>
+    <child link="front_left_upper_leg"/>
+    <origin xyz="0.077 0.0 -0.077" rpy="0 1.57 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
 
-  <!-- Joint connecting back left upper leg to lower leg -->
-  <joint name="back_left_knee" type="revolute">
-    <parent link="back_left_upper_leg"/>
-    <child link="back_left_lower_leg"/>
-    <origin xyz="0.203 -0.038 0.05" rpy="0 3.14 0"/>
+  <!-- Joint connecting front right coupler to upper leg -->
+  <joint name="front_right_hipY" type="revolute">
+    <parent link="front_right_coupler"/>
+    <child link="front_right_upper_leg"/>
+    <origin xyz="0.077 0.0 -0.077" rpy="0 1.57 3.14"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
@@ -260,7 +233,34 @@
   <joint name="back_right_knee" type="revolute">
     <parent link="back_right_upper_leg"/>
     <child link="back_right_lower_leg"/>
-    <origin xyz="0.203 -0.038 0.05" rpy="0 3.14 0"/>
+    <origin xyz="0.203 -0.038 0.0" rpy="0 3.14 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
+  </joint>
+
+  <!-- Joint connecting back left upper leg to lower leg -->
+  <joint name="back_left_knee" type="revolute">
+    <parent link="back_left_upper_leg"/>
+    <child link="back_left_lower_leg"/>
+    <origin xyz="0.203 -0.038 0.0" rpy="0 3.14 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
+  </joint>
+
+  <!-- Joint connecting front left upper leg to lower leg -->
+  <joint name="front_left_knee" type="revolute">
+    <parent link="front_left_upper_leg"/>
+    <child link="front_left_lower_leg"/>
+    <origin xyz="0.203 -0.038 0.0" rpy="0 3.14 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
+  </joint>
+
+  <!-- Joint connecting front right upper leg to lower leg -->
+  <joint name="front_right_knee" type="revolute">
+    <parent link="front_right_upper_leg"/>
+    <child link="front_right_lower_leg"/>
+    <origin xyz="0.203 -0.038 0.0" rpy="0 3.14 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1.57" upper="1.57" effort="10.0" velocity="5.0"/>
   </joint>
